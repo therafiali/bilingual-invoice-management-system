@@ -18,6 +18,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('page')->group(function () {
             Route::post('add', [PageController::class, 'addPage']);
             Route::get('/{id?}', [PageController::class, 'getPage']);
+            Route::delete('/{id}', [PageController::class, 'deletePage']);
         });
     });
 });
