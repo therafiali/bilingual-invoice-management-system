@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\AuthResource;
 use App\Services\AuthService;
 use App\Traits\ApiResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -20,13 +22,28 @@ class AuthController extends Controller
     }
 
 
-    public function register(AuthRequest $request)
+    public function register(RegisterRequest $request)
     {
-       $user =  $this->authService->createUser($request->validated());
+        $user =  $this->authService->createUser($request->validated());
 
-        return $this-> successResponse(
-                new AuthResource($user), "User Successfully Register", 201
+        return $this->successResponse(
+            new AuthResource($user),
+            "User Successfully Register",
+            201
         );
     }
 
+    public function login(LoginRequest $request)
+    {
+
+        $isValid = Auth::attempt($request->validated());
+
+        if (!$isValid) {
+            return $this->errorResponse("Invalid Credientials", 401, "Invalid email or password");
+        }
+
+        $user = Auth::user();
+
+        return $this->successResponse(new AuthResource($user), "Successfully Login", 200);
+    }
 }
