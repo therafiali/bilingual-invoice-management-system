@@ -44,6 +44,23 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        return $this->successResponse(new AuthResource($user), "Successfully Login", 200);
+        $user = Auth::user();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully logged in',
+            'data' => [
+                'user' => new AuthResource($user),
+                'token' => $token,
+            ],
+        ], 200);
+    }
+
+    public function logout()
+    {
+        auth()->user()->currentAccessToken()->delete();
+
+        return $this->successMessage('Successfully logged out', 200);
     }
 }
