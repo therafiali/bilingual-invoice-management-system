@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\invoice\InvoiceController;
 use App\Http\Controllers\Pages\PageContentController;
 use App\Http\Controllers\Pages\PageController;
 use App\Http\Controllers\QrCodeController;
@@ -40,6 +41,10 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('qr')->group(function () {
             Route::post('/', [QrCodeController::class, 'generateQr']);
+        });
+
+        Route::prefix('invoices')->group(function () {
+            Route::post('/generate', [InvoiceController::class, 'generateInvoice']);
         });
     });
 });
