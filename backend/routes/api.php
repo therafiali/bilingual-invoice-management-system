@@ -3,7 +3,9 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Pages\PageContentController;
 use App\Http\Controllers\Pages\PageController;
+use App\Http\Controllers\StorageController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::prefix('v1')->group(function () {
 
@@ -28,6 +30,11 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', [PageContentController::class, 'updatePageContent']);
             Route::delete('/{id}', [PageContentController::class, 'deletePageContent']);
             Route::get('/{id}', [PageContentController::class, 'getPageContent']);
+        });
+
+        Route::prefix('storage')->group(function () {
+            Route::post('/', [StorageController::class, 'uploadFiles']);
+            Route::delete('/', [StorageController::class, 'deleteFile']);
         });
     });
 });
