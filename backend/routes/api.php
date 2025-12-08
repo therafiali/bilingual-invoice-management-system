@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Pages\PageContentController;
 use App\Http\Controllers\Pages\PageController;
+use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\StorageController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('storage')->group(function () {
             Route::post('/', [StorageController::class, 'uploadFiles']);
             Route::delete('/', [StorageController::class, 'deleteFile']);
+        });
+
+        Route::prefix('qr')->group(function () {
+            Route::post('/', [QrCodeController::class, 'generateQr']);
         });
     });
 });
