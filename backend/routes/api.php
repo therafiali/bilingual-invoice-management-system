@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Pages\PageContentController;
 use App\Http\Controllers\Pages\PageController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,14 @@ Route::prefix('v1')->group(function () {
             Route::post('add', [PageController::class, 'addPage']);
             Route::get('/{id?}', [PageController::class, 'getPage']);
             Route::delete('/{id}', [PageController::class, 'deletePage']);
+            Route::put('/{id}', [PageController::class, 'editPage']);
+        });
+
+        Route::prefix('content')->group(function () {
+            Route::post('add', [PageContentController::class, 'addPageContent']);
+            Route::put('/{id}', [PageContentController::class, 'updatePageContent']);
+            Route::delete('/{id}', [PageContentController::class, 'deletePageContent']);
+            Route::get('/{id}', [PageContentController::class, 'getPageContent']);
         });
     });
 });

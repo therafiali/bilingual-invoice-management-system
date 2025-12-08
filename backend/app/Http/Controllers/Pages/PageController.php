@@ -39,8 +39,25 @@ class PageController extends Controller
             return $this->errorResponse("id required", 401);
         }
 
-        $page = Page::where('id',$id) -> delete();
+        $page = Page::where('id', $id)->delete();
 
-        return $this -> successMessage("Successfully Deleted", 200);
+        return $this->successMessage("Successfully Deleted", 200);
+    }
+
+    public function editPage(Request $request, $id)
+    {
+
+
+        $request->validate([
+            'page_name' => 'required|string'
+        ]);
+
+        if (!$id) {
+            return $this->errorResponse("id required", 401);
+        }
+
+        $page = Page::where('id', $id)->update(['page_name' => $request->page_name]);
+
+        return $this->successResponse($page, "Successfully Updated", 200);
     }
 }
